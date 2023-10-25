@@ -8,7 +8,6 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @Builder
-@ToString
 public class Souvenir implements Serializable {
     private String name;
     private Producer producer;
@@ -20,5 +19,13 @@ public class Souvenir implements Serializable {
         this.producer = souvenir.getProducer();
         this.releaseDate = souvenir.getReleaseDate();
         this.price = souvenir.getPrice();
+    }
+
+    @Override
+    public String toString() {
+        return  "Назва сувеніру = " + name +
+                ", Виробник = " + producer +
+                ", Дата видання = " + releaseDate +
+                ", Ціна = " + price + " грн.";
     }
 }
