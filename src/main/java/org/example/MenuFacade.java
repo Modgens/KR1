@@ -61,6 +61,9 @@ public class MenuFacade {
                 case 11:
                     menu.deleteProducerAndSouvenirs();
                     break;
+                case 12:
+                    menu.changeProducer();
+                    break;
                 case 0:
                     System.out.println("До побачення!");
                     menu.getDataStorage().update();
@@ -75,7 +78,7 @@ public class MenuFacade {
 
     private void printMenu() {
         System.out.println("Оберіть опцію:");
-        System.out.println("1. Додати сувенір");
+        System.out.println("1. Створити сувенір / виробника");
         System.out.println("2. Редагувати сувенір");
         System.out.println("3. Переглянути всіх виробників");
         System.out.println("4. Переглянути всі сувеніри");
@@ -86,6 +89,7 @@ public class MenuFacade {
         System.out.println("9. Вивести інформацію про виробників заданого сувеніру, виробленого у заданому року.");
         System.out.println("10. Для кожного року вивести список сувенірів, зроблених цього року.");
         System.out.println("11. Видалити виробника та його сувеніри");
+        System.out.println("12. Змінити інформацію виробника");
         System.out.println("0. Зберегти та вийти");
     }
 }

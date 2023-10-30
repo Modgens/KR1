@@ -5,7 +5,9 @@ import lombok.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Data
+// Не використовую @Data через її втручання в equals() метод
+@Getter
+@Setter
 @AllArgsConstructor
 @Builder
 public class Souvenir implements Serializable {

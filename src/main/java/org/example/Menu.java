@@ -199,9 +199,6 @@ public class Menu {
         }
     }
 
-
-    // Це мені захотілося мати можливість обирати Виробників з уже існуючих сувенірів...
-    // В моїй уяві воно здавалося меншим, можна було й прибрати, але вирішив лишити
     private Producer chooseProducerOrCreateOne() {
         while (true) {
             System.out.println("1 - Обрати існуючого виробника");
@@ -210,37 +207,69 @@ public class Menu {
             System.out.print("Ваш вибір: ");
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
+            List<Producer> producers = getUniqueProducers();
+            scanner.nextLine(); // Очищуємо сканер після числового сканування
 
             switch (choice) {
                 case 1:
-                    List<Producer> producers = list.stream().map(Souvenir::getProducer).distinct().toList();
                     if (!producers.isEmpty()) {
-                        while (true) {
-                            System.out.println("Виробники:");
-                            for (int i = 0; i < producers.size(); i++) {
-                                System.out.println(i + " - " + producers.get(i));
-                            }
-                            System.out.println("Оберіть індекс виробника:");
-                            int index = scanner.nextInt();
-                            if (index < producers.size() && index >= 0) {
-                                return producers.get(index);
-                            } else {
-                                System.out.println("Невірний вибір. Будь ласка, виберіть існуючу опцію.");
-                            }
-                        }
+                        return getProducer(producers);
                     }
                     System.out.println("Виробників не існує, створіть одного:");
                 case 2:
-                    scanner.nextLine();
-                    System.out.println("Введіть назву виробника:");
-                    String name = scanner.nextLine();
-                    System.out.println("Введіть країну виробника:");
-                    String country = scanner.nextLine();
-                    return new Producer(name, country);
+                    return createProducer(producers);
                 default:
                     System.out.println("Невірний вибір. Будь ласка, виберіть існуючу опцію.");
             }
         }
     }
 
+    private static Producer getProducer(List<Producer> producers) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("Введіть назву існуючого виробника:");
+            String existingName = scanner.nextLine();
+            Producer foundProducer = null;
+            for (Producer producer : producers) {
+                if (producer.getName().equals(existingName)) {
+                    foundProducer = producer;
+                    break;
+                }
+            }
+            if (foundProducer!=null) {
+                return foundProducer;
+            } else {
+                System.out.println("Виробника з такою назвою не існує, будь ласка введіть іншу назву.");
+            }
+        }
+    }
+
+    private static Producer createProducer(List<Producer> producers) {
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Введіть назву виробника:");
+            String name = scanner.nextLine();
+            if (!producers.isEmpty() && producers.contains(new Producer(name, ""))){
+                System.out.println(producers.contains(new Producer(name, "")));
+                System.out.println("Виробник з такою назвою вже існує!");
+                continue;
+            }
+            System.out.println("Введіть країну виробника:");
+            String country = scanner.nextLine();
+            return new Producer(name, country);
+        }
+    }
+
+    public void changeProducer() {
+        List<Producer> producers = getUniqueProducers();
+        Producer oldProducer = getProducer(producers);
+        Producer newProducer = createProducer(producers);
+
+        oldProducer.setName(newProducer.getName());
+        oldProducer.setCountry(newProducer.getCountry());
+    }
+
+    private List<Producer> getUniqueProducers() {
+        return list.stream().map(Souvenir::getProducer).distinct().toList();
+    }
 }
